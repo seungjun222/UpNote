@@ -5,7 +5,6 @@ export const NavBar = () => {
 };
 
 const StyledConatiner = styled.div`
-  width: 100vw;
   height: 3rem;
   background-color: orange;
 `;

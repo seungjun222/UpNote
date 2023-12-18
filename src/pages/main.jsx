@@ -8,7 +8,6 @@ export const Main = () => {
   return (
     <StyledConatiner>
       <Header />
-      <NavBar />
       <StyledContentWrapper>
         <SideBar />
         <Content />
@@ -27,5 +26,5 @@ const StyledConatiner = styled.div`
 const StyledContentWrapper = styled.div`
   display: grid;
   grid-template-columns: 0.425fr 1.575fr;
-  height: calc(100vh - 6rem);
+  height: calc(100vh - 3rem);
 `;
