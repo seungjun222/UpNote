@@ -17,7 +17,7 @@ const fetchDataFromLocalStorage = () => {
 
 export const SideBar = () => {
   const inputValue = useRecoilValue(inputValueState);
-  const isCreating = useRecoilValue(isCreatingState);
+  //   const isCreating = useRecoilValue(isCreatingState);
   const isWritingText = useRecoilValue(isWritingTextState);
   const [sortedData, setSortedData] = useState(fetchDataFromLocalStorage());
 
@@ -28,7 +28,7 @@ export const SideBar = () => {
 
   useEffect(() => {
     fetchDataAndSetState();
-    const intervalId = setInterval(fetchDataAndSetState, 2000);
+    const intervalId = setInterval(fetchDataAndSetState, 1000);
     return () => {
       clearInterval(intervalId);
     };

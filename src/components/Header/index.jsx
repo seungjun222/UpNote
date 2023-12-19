@@ -1,20 +1,21 @@
 import styled from "styled-components";
-import { isCreatingState } from "../../recoil/newNote";
-import { useSetRecoilState } from "recoil";
 
 export const Header = () => {
-  const setIsCreatingState = useSetRecoilState(isCreatingState);
-
-  const handleClickButton = () => {
-    setIsCreatingState(true);
+  const handleButton = () => {
+    const storedData = JSON.parse(localStorage.getItem("contentData")) || [];
+    const newData = {
+      id: storedData.length + 1,
+      inputValue: "New Note",
+      lastModified: new Date().toLocaleString(),
+    };
+    const updatedData = [newData, ...storedData];
+    localStorage.setItem("contentData", JSON.stringify(updatedData));
   };
 
   return (
     <StyledConatiner>
       <div>헤더</div>
-      <StyledNewNoteButton onClick={handleClickButton}>
-        New Note
-      </StyledNewNoteButton>
+      <StyledNewNoteButton onClick={handleButton}>New Note</StyledNewNoteButton>
     </StyledConatiner>
   );
 };
