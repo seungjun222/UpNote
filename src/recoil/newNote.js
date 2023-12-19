@@ -1,13 +1,8 @@
 import { atom } from "recoil";
 
-export const clickedNewNoteButtonState = atom({
-  key: "clickedNewNoteButtonState",
+export const clickedNewMemoButtonState = atom({
+  key: "clickedNewMemoButtonState",
   default: false,
-});
-
-export const selectedNoteIdState = atom({
-  key: "selectedNoteIdState",
-  default: 1,
 });
 
 export const inputValueState = atom({
@@ -20,19 +15,33 @@ export const isWritingTextState = atom({
   default: false,
 });
 
-export const clickedNoteIdState = atom({
-  key: "clickedNoteIdState",
+export const clickedMemoIdState = atom({
+  key: "clickedMemoIdState",
   default: () => {
     const storedData = JSON.parse(localStorage.getItem("contentData")) || [];
     if (storedData.length === 0) {
       return null;
     }
-    const latestNote = storedData.reduce((prev, current) =>
-      new Date(prev.lastModified) > new Date(current.lastModified)
-        ? prev
-        : current
-    );
-
-    return latestNote.id;
+    return storedData[0].id;
+  },
+});
+export const clickedNoteIdState = atom({
+  key: "clickedNoteIdState",
+  default: () => {
+    const storedData = JSON.parse(localStorage.getItem("notebooks")) || [];
+    if (storedData.length === 0) {
+      return null;
+    }
+    return storedData[0].id;
+  },
+});
+export const clickedNoteNameState = atom({
+  key: "clickedNoteNameState",
+  default: () => {
+    const storedData = JSON.parse(localStorage.getItem("notebooks")) || [];
+    if (storedData.length === 0) {
+      return null;
+    }
+    return storedData[0].name;
   },
 });

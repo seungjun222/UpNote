@@ -1,21 +1,21 @@
 import styled from "styled-components";
 import { NavBar } from "./NavBar";
-import { clickedNoteIdState, inputValueState } from "../../recoil/newNote";
+import { clickedNoteIdState, clickedNoteNameState } from "../../recoil/newNote";
 import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
 import { useEffect, useState } from "react";
 import { ReactComponent as Trash } from "../../assets/trash.svg";
+
 import Swal from "sweetalert2";
 
 const fetchDataFromLocalStorage = () => {
-  const storedData = JSON.parse(localStorage.getItem("contentData")) || [];
+  const storedData = JSON.parse(localStorage.getItem("notebooks")) || [];
   return storedData;
 };
 
-export const SideBar = () => {
-  //   const inputValue = useRecoilValue(inputValueState);
+export const SideBarNotes = () => {
   const [clickedNoteId, setClickedNoteId] = useRecoilState(clickedNoteIdState);
-
-  //   const setClickedNoteId = useSetRecoilState(clickedNoteIdState);
+  const [clickedNoteName, setClickedNoteName] =
+    useRecoilState(clickedNoteNameState);
   const [sortedData, setSortedData] = useState(fetchDataFromLocalStorage());
 
   const fetchDataAndSetState = () => {
@@ -41,14 +41,14 @@ export const SideBar = () => {
       }).then((result) => {
         if (result.isConfirmed) {
           const updatedData = currentData.filter((note) => note.id !== id);
-          localStorage.setItem("contentData", JSON.stringify(updatedData));
+          localStorage.setItem("notebooks", JSON.stringify(updatedData));
           if (clickedNoteId === id) {
             setClickedNoteId(null);
           }
           setSortedData(updatedData);
           Swal.fire({
             title: "삭제 완료!",
-            text: "메모가 성공적으로 삭제되었습니다.",
+            text: "노트북이 성공적으로 삭제되었습니다.",
             icon: "success",
           });
         }
@@ -56,8 +56,9 @@ export const SideBar = () => {
     }
   };
 
-  const handleNoteClick = (id) => {
+  const handleNoteClick = (id, name) => {
     setClickedNoteId(id);
+    setClickedNoteName(name);
   };
 
   useEffect(() => {
@@ -73,13 +74,12 @@ export const SideBar = () => {
       <NavBar />
       {sortedData.map((note) => (
         <StyledNote
-          onClick={() => handleNoteClick(note.id)}
+          onClick={() => handleNoteClick(note.id, note.inputValue)}
           key={note.id}
           isSelected={note.id === clickedNoteId}
         >
           <StyledContentWrapper>
             <StyledInputValue>{note.inputValue}</StyledInputValue>
-            <StyledLastModified>{note.lastModified}</StyledLastModified>
           </StyledContentWrapper>
           <StyledButtonWrapper>
             <StyledDeleteButton onClick={(e) => handleDelete(e, note.id)} />
@@ -105,20 +105,18 @@ const StyledNote = styled.div`
   ${({ isSelected }) =>
     isSelected &&
     `
-    background-color: rgb(228, 242, 254);
+    background-color: rgb(244, 244, 244);
   `}
 `;
 const StyledInputValue = styled.div`
   font-size: 1.1rem;
 `;
-const StyledLastModified = styled.div`
-  font-size: 0.8rem;
-  color: #aaaaaa;
-`;
+
 const StyledContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: 1rem;
 `;
 
 const StyledButtonWrapper = styled.div`

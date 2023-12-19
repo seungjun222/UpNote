@@ -11,16 +11,21 @@ export const Header = () => {
     };
     const updatedData = [newData, ...storedData];
     localStorage.setItem("contentData", JSON.stringify(updatedData));
-    localStorage.setItem("clickedNoteId", storedData.length + 1);
+    localStorage.setItem("clickedMemoId", storedData.length + 1);
   };
 
   return (
     <StyledConatiner>
-      <div></div>
-      <StyledNewNoteButton onClick={handleButton}>New Note</StyledNewNoteButton>
+      <StyledTitle>UpNote</StyledTitle>
+      <StyledNewMemoButton onClick={handleButton}>New Note</StyledNewMemoButton>
     </StyledConatiner>
   );
 };
+
+const StyledTitle = styled.div`
+  font-size: 1.2rem;
+  font-weight: bold;
+`;
 
 const StyledConatiner = styled.div`
   height: 3rem;
@@ -30,7 +35,7 @@ const StyledConatiner = styled.div`
   padding: 0 1rem;
   justify-content: space-between;
 `;
-const StyledNewNoteButton = styled.button`
+const StyledNewMemoButton = styled.button`
   width: 5rem;
   height: 75%;
   border-radius: 0.3rem;

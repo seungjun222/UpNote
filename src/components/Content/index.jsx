@@ -2,41 +2,41 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { NavBar } from "./NavBar";
 import {
-  clickedNewNoteButtonState,
-  clickedNoteIdState,
+  clickedNewMemoButtonState,
+  clickedMemoIdState,
 } from "../../recoil/newNote";
 import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
 import { debounce } from "lodash";
 
 export const Content = () => {
-  const clickedNoteId = useRecoilValue(clickedNoteIdState);
-  const clickedNewNoteButton = useRecoilValue(clickedNewNoteButtonState);
+  const clickedMemoId = useRecoilValue(clickedMemoIdState);
+  const clickedNewMemoButton = useRecoilValue(clickedNewMemoButtonState);
   const [inputValue, setInputValue] = useState("");
   //   const [inputValue, setInputValue] = useRecoilState(inputValueState);
 
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem("contentData")) || [];
-    const existingData = storedData.find((data) => data.id === clickedNoteId);
+    const existingData = storedData.find((data) => data.id === clickedMemoId);
     if (existingData) {
       setInputValue(existingData.inputValue);
     } else {
       setInputValue("");
     }
-  }, [clickedNoteId]);
+  }, [clickedMemoId]);
 
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem("contentData")) || [];
-    const existingData = storedData.find((data) => data.id === clickedNoteId);
+    const existingData = storedData.find((data) => data.id === clickedMemoId);
 
     if (existingData) {
       const updatedData = storedData.map((data) =>
-        data.id === clickedNoteId ? { ...data, inputValue: inputValue } : data
+        data.id === clickedMemoId ? { ...data, inputValue: inputValue } : data
       );
       localStorage.setItem("contentData", JSON.stringify(updatedData));
     } else {
-      if (clickedNewNoteButton) {
+      if (clickedNewMemoButton) {
         const newData = {
-          id: clickedNoteId,
+          id: clickedMemoId,
           inputValue: inputValue,
           lastModified: new Date().toLocaleString(),
         };
@@ -44,7 +44,7 @@ export const Content = () => {
         localStorage.setItem("contentData", JSON.stringify(updatedData));
       }
     }
-  }, [inputValue, clickedNoteId]);
+  }, [inputValue, clickedMemoId]);
 
   //   const debouncedHandleInputChange = debounce((value) => {
   //     setInputValue(value);
@@ -61,7 +61,7 @@ export const Content = () => {
         value={inputValue}
         onChange={handleInputChange}
       />
-      {/* {clickedNoteId} */}
+      {/* {clickedMemoId} */}
     </StyledConatiner>
   );
 };
