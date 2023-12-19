@@ -50,6 +50,7 @@ export const SideBarNotes = () => {
           localStorage.setItem("notebooks", JSON.stringify(updatedData));
           if (clickedNoteId === id) {
             setClickedNoteId(null);
+            setClickedNoteName("");
           }
           setSortedData(updatedData);
           Swal.fire({
