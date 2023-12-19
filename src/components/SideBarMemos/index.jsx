@@ -66,6 +66,27 @@ export const SideBarMemos = () => {
     setClickedMemoId(id);
   };
 
+  const handleNewMemoButton = () => {
+    const storedData = JSON.parse(localStorage.getItem("notebooks")) || [];
+    const updatedData = storedData.map((note) => {
+      if (note.id === clickedNoteId) {
+        return {
+          ...note,
+          memos: [
+            {
+              id: Math.random(),
+              inputValue: "New Note",
+              lastModified: new Date().toLocaleString(),
+            },
+            ...(note.memos || []),
+          ],
+        };
+      }
+      return note;
+    });
+    localStorage.setItem("notebooks", JSON.stringify(updatedData));
+  };
+
   const fetchDataAndSetState = () => {
     const updatedData = fetchDataFromLocalStorage();
     setSortedData(updatedData);
@@ -82,7 +103,7 @@ export const SideBarMemos = () => {
   return (
     <StyledConatiner>
       <NavBar />
-      {sortedData &&
+      {sortedData.length > 0 &&
         sortedData.map((memo) => (
           <StyledNote
             onClick={() => handleMemoClick(memo.id)}
@@ -93,11 +114,18 @@ export const SideBarMemos = () => {
               <StyledInputValue>{memo.inputValue}</StyledInputValue>
               <StyledLastModified>{memo.lastModified}</StyledLastModified>
             </StyledContentWrapper>
-            <StyledButtonWrapper>
+            <StyledDeleteButtonWrapper>
               <StyledDeleteButton onClick={(e) => handleDelete(e, memo.id)} />
-            </StyledButtonWrapper>
+            </StyledDeleteButtonWrapper>
           </StyledNote>
         ))}
+      {clickedNoteId && sortedData.length === 0 && (
+        <StyledNewMemoButtonWrapper>
+          <StyledNewMemoButton onClick={handleNewMemoButton}>
+            New Note
+          </StyledNewMemoButton>
+        </StyledNewMemoButtonWrapper>
+      )}
     </StyledConatiner>
   );
 };
@@ -134,7 +162,7 @@ const StyledContentWrapper = styled.div`
   gap: 1rem;
 `;
 
-const StyledButtonWrapper = styled.div`
+const StyledDeleteButtonWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -143,4 +171,23 @@ const StyledButtonWrapper = styled.div`
 const StyledDeleteButton = styled(Trash)`
   width: 1rem;
   height: 1rem;
+`;
+
+const StyledNewMemoButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 2.5rem;
+  margin-top: 15rem;
+`;
+const StyledNewMemoButton = styled.button`
+  font-size: 1.1rem;
+  font-weight: bold;
+  width: 6.5rem;
+  height: 100%;
+  border: none;
+  cursor: pointer;
+  background-color: white;
+  color: rgb(0, 120, 197);
 `;

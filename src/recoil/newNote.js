@@ -7,33 +7,15 @@ export const clickedNewMemoButtonState = atom({
 
 export const clickedMemoIdState = atom({
   key: "clickedMemoIdState",
-  default: () => {
-    const storedData = JSON.parse(localStorage.getItem("memos")) || [];
-    if (storedData.length === 0) {
-      return null;
-    }
-    return storedData[0].id;
-  },
+  default: null,
 });
 export const clickedNoteIdState = atom({
   key: "clickedNoteIdState",
-  default: () => {
-    const storedData = JSON.parse(localStorage.getItem("notebooks")) || [];
-    if (storedData.length === 0) {
-      return null;
-    }
-    return storedData[0].id;
-  },
+  default: null,
 });
 export const clickedNoteNameState = atom({
   key: "clickedNoteNameState",
-  default: () => {
-    const storedData = JSON.parse(localStorage.getItem("notebooks")) || [];
-    if (storedData.length === 0) {
-      return null;
-    }
-    return storedData[0].name;
-  },
+  default: null,
 });
 export const clickedNoteMemosState = atom({
   key: "clickedNoteMemosState",
