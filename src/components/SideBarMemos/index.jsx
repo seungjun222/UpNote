@@ -1,12 +1,18 @@
 import styled from "styled-components";
 import { NavBar } from "./NavBar";
-import { clickedMemoIdState, clickedNoteIdState } from "../../recoil/newNote";
-import { useRecoilValue, useRecoilState } from "recoil";
+import {
+  clickedMemoIdState,
+  clickedNoteIdState,
+  inputValueVisibleState,
+} from "../../recoil/newNote";
+import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
 import { useEffect, useState } from "react";
 import { ReactComponent as Trash } from "../../assets/trash.svg";
 import Swal from "sweetalert2";
 
 export const SideBarMemos = () => {
+  const setInputValueVisible = useSetRecoilState(inputValueVisibleState);
+
   const clickedNoteId = useRecoilValue(clickedNoteIdState);
   const [clickedMemoId, setClickedMemoId] = useRecoilState(clickedMemoIdState);
 
@@ -64,6 +70,7 @@ export const SideBarMemos = () => {
 
   const handleMemoClick = (id) => {
     setClickedMemoId(id);
+    setInputValueVisible(true);
   };
 
   const handleNewMemoButton = () => {

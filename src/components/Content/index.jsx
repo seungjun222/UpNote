@@ -5,6 +5,7 @@ import {
   clickedNewMemoButtonState,
   clickedMemoIdState,
   clickedNoteIdState,
+  inputValueVisibleState,
 } from "../../recoil/newNote";
 import { useRecoilValue } from "recoil";
 
@@ -13,6 +14,7 @@ export const Content = () => {
   const clickedMemoId = useRecoilValue(clickedMemoIdState);
   const clickedNewMemoButton = useRecoilValue(clickedNewMemoButtonState);
   const [inputValue, setInputValue] = useState("");
+  const inputValueVisible = useRecoilValue(inputValueVisibleState);
 
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem("notebooks")) || [];
@@ -84,11 +86,13 @@ export const Content = () => {
   return (
     <StyledConatiner>
       <NavBar />
-      <StyledInput
-        type="text"
-        value={inputValue}
-        onChange={handleInputChange}
-      />
+      {inputValueVisible && (
+        <StyledInput
+          type="text"
+          value={inputValue}
+          onChange={handleInputChange}
+        />
+      )}
     </StyledConatiner>
   );
 };

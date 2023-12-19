@@ -5,6 +5,11 @@ export const clickedNewMemoButtonState = atom({
   default: false,
 });
 
+export const inputValueVisibleState = atom({
+  key: "inputValueVisibleState",
+  default: false,
+});
+
 export const clickedMemoIdState = atom({
   key: "clickedMemoIdState",
   default: null,

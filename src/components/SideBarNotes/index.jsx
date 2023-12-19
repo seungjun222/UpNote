@@ -4,6 +4,7 @@ import {
   clickedNoteIdState,
   clickedNoteNameState,
   clickedNoteMemosState,
+  inputValueVisibleState,
 } from "../../recoil/newNote";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { useEffect, useState } from "react";
@@ -17,6 +18,7 @@ const fetchDataFromLocalStorage = () => {
 };
 
 export const SideBarNotes = () => {
+  const setInputValueVisible = useSetRecoilState(inputValueVisibleState);
   const setClickedNoteMemos = useSetRecoilState(clickedNoteMemosState);
   const [clickedNoteId, setClickedNoteId] = useRecoilState(clickedNoteIdState);
   const setClickedNoteName = useSetRecoilState(clickedNoteNameState);
@@ -64,6 +66,7 @@ export const SideBarNotes = () => {
     setClickedNoteId(id);
     setClickedNoteName(name);
     setClickedNoteMemos(memos);
+    setInputValueVisible(false);
   };
 
   useEffect(() => {
