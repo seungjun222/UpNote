@@ -5,7 +5,7 @@ import {
   clickedNoteNameState,
   clickedNoteMemosState,
 } from "../../recoil/newNote";
-import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { useEffect, useState } from "react";
 import { ReactComponent as Trash } from "../../assets/trash.svg";
 
@@ -17,12 +17,9 @@ const fetchDataFromLocalStorage = () => {
 };
 
 export const SideBarNotes = () => {
-  const [clickedNoteMemos, setClickedNoteMemos] = useRecoilState(
-    clickedNoteMemosState
-  );
+  const setClickedNoteMemos = useSetRecoilState(clickedNoteMemosState);
   const [clickedNoteId, setClickedNoteId] = useRecoilState(clickedNoteIdState);
-  const [clickedNoteName, setClickedNoteName] =
-    useRecoilState(clickedNoteNameState);
+  const setClickedNoteName = useSetRecoilState(clickedNoteNameState);
   const [sortedData, setSortedData] = useState(fetchDataFromLocalStorage());
 
   const fetchDataAndSetState = () => {

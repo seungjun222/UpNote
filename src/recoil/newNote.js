@@ -5,16 +5,6 @@ export const clickedNewMemoButtonState = atom({
   default: false,
 });
 
-export const inputValueState = atom({
-  key: "inputValueState",
-  default: "New Note",
-});
-
-export const isWritingTextState = atom({
-  key: "isWritingTextState",
-  default: false,
-});
-
 export const clickedMemoIdState = atom({
   key: "clickedMemoIdState",
   default: () => {

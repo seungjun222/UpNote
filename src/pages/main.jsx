@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { Header } from "../components/Header";
-import { NavBar } from "../components/SideBarMemos/NavBar";
 import { SideBarNotes } from "../components/SideBarNotes";
 import { SideBarMemos } from "../components/SideBarMemos";
 import { Content } from "../components/Content";

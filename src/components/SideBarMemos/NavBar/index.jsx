@@ -1,25 +1,9 @@
 import styled from "styled-components";
-import {
-  clickedNoteIdState,
-  clickedNoteNameState,
-} from "../../../recoil/newNote";
-import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
-import React, { useEffect, useState } from "react";
+import { clickedNoteNameState } from "../../../recoil/newNote";
+import { useRecoilValue } from "recoil";
 
 export const NavBar = () => {
-  const clickedNoteId = useRecoilValue(clickedNoteIdState);
   const clickedNoteName = useRecoilValue(clickedNoteNameState);
-
-  // useEffect(() => {
-  //   const notebooks = JSON.parse(localStorage.getItem("notebooks")) || [];
-  //   const matching = notebooks.find(
-  //     (notebook) => notebook.id === clickedNoteId
-  //   );
-  //   if (matching) {
-  //     setClickedNoteName(matching.name);
-  //   }
-  //   console.log("clickedNoteId", clickedNoteId);
-  // }, [clickedNoteId]);
 
   return <StyledConatiner>{clickedNoteName}</StyledConatiner>;
 };

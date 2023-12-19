@@ -6,15 +6,13 @@ import {
   clickedMemoIdState,
   clickedNoteIdState,
 } from "../../recoil/newNote";
-import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
-import { debounce } from "lodash";
+import { useRecoilValue } from "recoil";
 
 export const Content = () => {
   const clickedNoteId = useRecoilValue(clickedNoteIdState);
   const clickedMemoId = useRecoilValue(clickedMemoIdState);
   const clickedNewMemoButton = useRecoilValue(clickedNewMemoButtonState);
   const [inputValue, setInputValue] = useState("");
-  //   const [inputValue, setInputValue] = useRecoilState(inputValueState);
 
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem("notebooks")) || [];
@@ -79,9 +77,6 @@ export const Content = () => {
     }
   }, [inputValue, clickedMemoId, clickedNoteId]);
 
-  //   const debouncedHandleInputChange = debounce((value) => {
-  //     setInputValue(value);
-  //   }, 1000);
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
@@ -94,7 +89,6 @@ export const Content = () => {
         value={inputValue}
         onChange={handleInputChange}
       />
-      {/* {clickedMemoId} */}
     </StyledConatiner>
   );
 };

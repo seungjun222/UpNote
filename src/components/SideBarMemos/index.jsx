@@ -1,21 +1,14 @@
 import styled from "styled-components";
 import { NavBar } from "./NavBar";
-import {
-  clickedMemoIdState,
-  clickedNoteIdState,
-  clickedNoteMemosState,
-} from "../../recoil/newNote";
-import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
+import { clickedMemoIdState, clickedNoteIdState } from "../../recoil/newNote";
+import { useRecoilValue, useRecoilState } from "recoil";
 import { useEffect, useState } from "react";
 import { ReactComponent as Trash } from "../../assets/trash.svg";
 import Swal from "sweetalert2";
 
 export const SideBarMemos = () => {
-  const [clickedNoteId, setClickedNoteId] = useRecoilState(clickedNoteIdState);
+  const clickedNoteId = useRecoilValue(clickedNoteIdState);
   const [clickedMemoId, setClickedMemoId] = useRecoilState(clickedMemoIdState);
-  const [clickedNoteMemos, setClickedNoteMemos] = useRecoilState(
-    clickedNoteMemosState
-  );
 
   const fetchDataFromLocalStorage = () => {
     const storedData = JSON.parse(localStorage.getItem("notebooks")) || [];
@@ -77,11 +70,6 @@ export const SideBarMemos = () => {
     const updatedData = fetchDataFromLocalStorage();
     setSortedData(updatedData);
   };
-
-  // useEffect(() => {
-  //   const updatedData = fetchDataFromLocalStorage();
-  //   setSortedData(updatedData);
-  // }, [clickedNoteId]);
 
   useEffect(() => {
     fetchDataAndSetState();

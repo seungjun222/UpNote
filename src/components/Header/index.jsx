@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
-import { clickedNoteIdState, clickedNoteNameState } from "../../recoil/newNote";
+import { useRecoilValue } from "recoil";
+import { clickedNoteIdState } from "../../recoil/newNote";
 import upnote from "../../assets/upnote.png";
 
 export const Header = () => {
-  const [clickedNoteId, setClickedNoteId] = useRecoilState(clickedNoteIdState);
+  const clickedNoteId = useRecoilValue(clickedNoteIdState);
 
   const handleButton = () => {
     const storedData = JSON.parse(localStorage.getItem("notebooks")) || [];
