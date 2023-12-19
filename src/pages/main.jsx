@@ -21,11 +21,10 @@ const StyledConatiner = styled.div`
   min-width: 1400px;
   max-width: 1920px;
   height: 100vh;
-  background-color: skyblue;
 `;
 
 const StyledContentWrapper = styled.div`
   display: grid;
   grid-template-columns: 0.325fr 0.425fr 1.25fr;
-  height: calc(100vh - 3rem);
+  height: calc(100vh - 3.05rem);
 `;
