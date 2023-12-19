@@ -33,6 +33,6 @@ const StyledNewNoteButton = styled.button`
   height: 75%;
   border-radius: 0.3rem;
   cursor: pointer;
-  background-color: blue;
+  background-color: rgb(0, 120, 197);
   color: white;
 `;

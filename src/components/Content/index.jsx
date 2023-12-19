@@ -1,51 +1,69 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { NavBar } from "../NavBar";
 import {
-  selectedNoteIdState,
-  inputValueState,
-  isWritingTextState,
+  clickedNewNoteButtonState,
+  clickedNoteIdState,
+  clickedNoteInputValueState,
 } from "../../recoil/newNote";
 import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
 import { debounce } from "lodash";
 
 export const Content = () => {
-  const selectedNoteId = useRecoilValue(selectedNoteIdState);
-  const [inputValue, setInputValue] = useRecoilState(inputValueState);
-  const setIsWritingText = useSetRecoilState(isWritingTextState);
+  const clickedNoteId = useRecoilValue(clickedNoteIdState);
+  const clickedNoteInputValue = useRecoilValue(clickedNoteInputValueState);
+  const clickedNewNoteButton = useRecoilValue(clickedNewNoteButtonState);
+  const [inputValue, setInputValue] = useState("");
+  //   const [inputValue, setInputValue] = useRecoilState(inputValueState);
 
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem("contentData")) || [];
-    const existingData = storedData.find((data) => data.id === selectedNoteId);
+    const existingData = storedData.find((data) => data.id === clickedNoteId);
+    if (existingData) {
+      setInputValue(existingData.inputValue);
+    } else {
+      setInputValue("");
+    }
+  }, [clickedNoteId]);
+
+  useEffect(() => {
+    const storedData = JSON.parse(localStorage.getItem("contentData")) || [];
+    const existingData = storedData.find((data) => data.id === clickedNoteId);
 
     if (existingData) {
       const updatedData = storedData.map((data) =>
-        data.id === selectedNoteId ? { ...data, inputValue: inputValue } : data
+        data.id === clickedNoteId ? { ...data, inputValue: inputValue } : data
       );
       localStorage.setItem("contentData", JSON.stringify(updatedData));
     } else {
-      const newData = {
-        id: selectedNoteId,
-        inputValue: inputValue,
-        lastModified: new Date().toLocaleString(),
-      };
-      const updatedData = [...storedData, newData];
-      localStorage.setItem("contentData", JSON.stringify(updatedData));
+      if (clickedNewNoteButton) {
+        const newData = {
+          id: clickedNoteId,
+          inputValue: inputValue,
+          lastModified: new Date().toLocaleString(),
+        };
+        const updatedData = [...storedData, newData];
+        localStorage.setItem("contentData", JSON.stringify(updatedData));
+      }
     }
-  }, [inputValue, selectedNoteId]);
+  }, [inputValue, clickedNoteId]);
 
-  const debouncedHandleInputChange = debounce((value) => {
-    setInputValue(value);
-    setIsWritingText(true);
-  }, 1000);
+  //   const debouncedHandleInputChange = debounce((value) => {
+  //     setInputValue(value);
+  //   }, 1000);
   const handleInputChange = (e) => {
-    debouncedHandleInputChange(e.target.value);
+    setInputValue(e.target.value);
   };
 
   return (
     <StyledConatiner>
       <NavBar />
-      <StyledInput onChange={handleInputChange} />
+      <StyledInput
+        type="text"
+        value={inputValue}
+        onChange={handleInputChange}
+      />
+      {clickedNoteId}
     </StyledConatiner>
   );
 };

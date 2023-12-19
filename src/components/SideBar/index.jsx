@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import { NavBar } from "../NavBar";
 import {
-  isCreatingState,
-  isWritingTextState,
+  clickedNoteIdState,
+  clickedNoteInputValueState,
   inputValueState,
 } from "../../recoil/newNote";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
 import { useEffect, useState } from "react";
 
 const fetchDataFromLocalStorage = () => {
@@ -16,14 +16,23 @@ const fetchDataFromLocalStorage = () => {
 };
 
 export const SideBar = () => {
-  const inputValue = useRecoilValue(inputValueState);
-  //   const isCreating = useRecoilValue(isCreatingState);
-  const isWritingText = useRecoilValue(isWritingTextState);
+  //   const inputValue = useRecoilValue(inputValueState);
+  const setClickedNoteId = useSetRecoilState(clickedNoteIdState);
+  const setClickedNoteInputValue = useSetRecoilState(
+    clickedNoteInputValueState
+  );
+
+  //   const setClickedNoteId = useSetRecoilState(clickedNoteIdState);
   const [sortedData, setSortedData] = useState(fetchDataFromLocalStorage());
 
   const fetchDataAndSetState = () => {
     const updatedData = fetchDataFromLocalStorage();
     setSortedData(updatedData);
+  };
+
+  const handleNoteClick = (id, value) => {
+    setClickedNoteId(id);
+    setClickedNoteInputValue(value);
   };
 
   useEffect(() => {
@@ -32,15 +41,18 @@ export const SideBar = () => {
     return () => {
       clearInterval(intervalId);
     };
-  }, [inputValue]);
+  }, []);
 
   return (
     <StyledConatiner>
       <NavBar />
       {sortedData.map((note) => (
-        <div key={note.id}>
+        <StyledNote
+          onClick={() => handleNoteClick(note.id, note.inputValue)}
+          key={note.id}
+        >
           {note.inputValue} - {note.lastModified}
-        </div>
+        </StyledNote>
       ))}
     </StyledConatiner>
   );
@@ -48,5 +60,15 @@ export const SideBar = () => {
 
 const StyledConatiner = styled.div`
   height: 100%;
-  background-color: red;
+  background-color: white;
+`;
+
+const StyledNote = styled.div`
+  cursor: pointer;
+  height: 5rem;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid #dddddd;
+  &:hover {
+    background-color: rgb(228, 242, 254);
+  }
 `;
