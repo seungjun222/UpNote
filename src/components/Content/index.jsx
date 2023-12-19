@@ -1,12 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { NavBar } from "../NavBar";
-import { selectedNoteIdState } from "../../recoil/newNote";
-import { useRecoilValue } from "recoil";
+import {
+  selectedNoteIdState,
+  inputValueState,
+  isWritingTextState,
+} from "../../recoil/newNote";
+import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
 
 export const Content = () => {
   const selectedNoteId = useRecoilValue(selectedNoteIdState);
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useRecoilState(inputValueState);
+  const setIsWritingText = useSetRecoilState(isWritingTextState);
 
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem("contentData")) || [];
@@ -30,12 +35,13 @@ export const Content = () => {
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
+    setIsWritingText(true);
   };
 
   return (
     <StyledConatiner>
       <NavBar />
-      <StyledInput value={inputValue} onChange={handleInputChange} />
+      <StyledInput onChange={handleInputChange} />
     </StyledConatiner>
   );
 };

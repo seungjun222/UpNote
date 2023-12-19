@@ -1,21 +1,44 @@
 import styled from "styled-components";
 import { NavBar } from "../NavBar";
-import { isCreatingState } from "../../recoil/newNote";
+import {
+  isCreatingState,
+  isWritingTextState,
+  inputValueState,
+} from "../../recoil/newNote";
 import { useRecoilValue } from "recoil";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
+const fetchDataFromLocalStorage = () => {
+  const storedData = JSON.parse(localStorage.getItem("contentData")) || [];
+  return storedData
+    .slice()
+    .sort((a, b) => new Date(b.lastModified) - new Date(a.lastModified));
+};
 
 export const SideBar = () => {
-  const isCreatingNote = useRecoilValue(isCreatingState);
+  const inputValue = useRecoilValue(inputValueState);
+  const isCreating = useRecoilValue(isCreatingState);
+  const isWritingText = useRecoilValue(isWritingTextState);
+  const [sortedData, setSortedData] = useState(fetchDataFromLocalStorage());
 
   useEffect(() => {
-    console.log("isCreatingNote", isCreatingNote);
-  }, [isCreatingNote]);
+    const fetchDataAndSetState = () => {
+      const updatedData = fetchDataFromLocalStorage();
+      setSortedData(updatedData);
+    };
 
+    fetchDataAndSetState();
+    const intervalId = setInterval(fetchDataAndSetState, 2000);
+    return () => clearInterval(intervalId);
+  }, []);
   return (
     <StyledConatiner>
       <NavBar />
-      사이드바
-      {isCreatingNote && <div>New Note</div>}
+      {sortedData.map((note) => (
+        <div key={note.id}>
+          {note.inputValue} - {note.lastModified}
+        </div>
+      ))}
     </StyledConatiner>
   );
 };

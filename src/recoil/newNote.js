@@ -9,3 +9,13 @@ export const selectedNoteIdState = atom({
   key: "selectedNoteIdState",
   default: 1,
 });
+
+export const inputValueState = atom({
+  key: "inputValueState",
+  default: "New Note",
+});
+
+export const isWritingTextState = atom({
+  key: "isWritingTextState",
+  default: false,
+});
