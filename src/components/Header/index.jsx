@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
 import { clickedNoteIdState, clickedNoteNameState } from "../../recoil/newNote";
+import upnote from "../../assets/upnote.png";
 
 export const Header = () => {
   const [clickedNoteId, setClickedNoteId] = useRecoilState(clickedNoteIdState);
@@ -12,12 +13,12 @@ export const Header = () => {
         return {
           ...note,
           memos: [
-            ...(note.memos || []),
             {
               id: Math.random(),
               inputValue: "New Note",
               lastModified: new Date().toLocaleString(),
             },
+            ...(note.memos || []),
           ],
         };
       }
@@ -29,17 +30,27 @@ export const Header = () => {
 
   return (
     <StyledConatiner>
-      <StyledTitle>UpNote</StyledTitle>
+      <StyledUpNoteWrapper>
+        <StyledLogo src={upnote} alt="UpNote" />
+        <StyledTitle>UpNote</StyledTitle>
+      </StyledUpNoteWrapper>
       <StyledNewMemoButton onClick={handleButton}>New Note</StyledNewMemoButton>
     </StyledConatiner>
   );
 };
 
+const StyledUpNoteWrapper = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+`;
 const StyledTitle = styled.div`
   font-size: 1.2rem;
   font-weight: bold;
 `;
-
+const StyledLogo = styled.img`
+  max-height: 1.5rem;
+`;
 const StyledConatiner = styled.div`
   height: 3rem;
   background-color: white;
@@ -47,9 +58,11 @@ const StyledConatiner = styled.div`
   align-items: center;
   padding: 0 1rem;
   justify-content: space-between;
+  border-bottom: 1px solid #dddddd;
 `;
 const StyledNewMemoButton = styled.button`
-  width: 5rem;
+  font-size: 1.1rem;
+  width: 6.5rem;
   height: 75%;
   border-radius: 0.3rem;
   border: none;

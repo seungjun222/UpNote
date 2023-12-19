@@ -21,12 +21,7 @@ export const NavBar = () => {
   //   console.log("clickedNoteId", clickedNoteId);
   // }, [clickedNoteId]);
 
-  return (
-    <StyledConatiner>
-      {clickedNoteName}
-      {clickedNoteId}
-    </StyledConatiner>
-  );
+  return <StyledConatiner>{clickedNoteName}</StyledConatiner>;
 };
 
 const StyledConatiner = styled.div`

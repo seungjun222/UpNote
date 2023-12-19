@@ -20,7 +20,7 @@ export const SideBarMemos = () => {
   const fetchDataFromLocalStorage = () => {
     const storedData = JSON.parse(localStorage.getItem("notebooks")) || [];
     const clickedNotebook = storedData.find(
-      (notebook) => notebook.id === clickedNoteId
+      (notebook) => notebook?.id === clickedNoteId
     );
     const memos = clickedNotebook ? clickedNotebook.memos : [];
     return memos;
@@ -31,7 +31,7 @@ export const SideBarMemos = () => {
   const handleDelete = (e, id) => {
     e.stopPropagation();
     const currentData = fetchDataFromLocalStorage();
-    const memoToDelete = currentData.find((memo) => memo.memos.id === id);
+    const memoToDelete = currentData.find((memo) => memo.memos?.id === id);
     if (memoToDelete) {
       Swal.fire({
         title: "정말 삭제하시겠습니까?",
@@ -45,9 +45,9 @@ export const SideBarMemos = () => {
       }).then((result) => {
         if (result.isConfirmed) {
           const updatedData = currentData?.map((notebook) => {
-            if (notebook.id === clickedNoteId) {
+            if (notebook?.id === clickedNoteId) {
               const updatedMemos = notebook.memos.filter(
-                (content) => content.id !== id
+                (memo) => memo?.id !== id
               );
               return { ...notebook, memos: updatedMemos };
             }

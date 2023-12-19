@@ -87,7 +87,10 @@ export const SideBarNotes = () => {
           isSelected={note.id === clickedNoteId}
         >
           <StyledContentWrapper>
-            <StyledInputValue>{note.inputValue}</StyledInputValue>
+            <StyledInputValue>
+              {note.inputValue}
+              <StyledMemosLength>{note.memos.length}</StyledMemosLength>
+            </StyledInputValue>
           </StyledContentWrapper>
           <StyledButtonWrapper>
             <StyledDeleteButton onClick={(e) => handleDelete(e, note.id)} />
@@ -106,7 +109,7 @@ const StyledConatiner = styled.div`
 
 const StyledNote = styled.div`
   cursor: pointer;
-  height: 5rem;
+  height: 2.5rem;
   padding: 0.5rem 1rem;
   border-bottom: 1px solid #dddddd;
   display: flex;
@@ -118,6 +121,11 @@ const StyledNote = styled.div`
 `;
 const StyledInputValue = styled.div`
   font-size: 1.1rem;
+`;
+const StyledMemosLength = styled.span`
+  font-size: 1rem;
+  margin-left: 0.3rem;
+  color: rgb(160, 160, 178);
 `;
 
 const StyledContentWrapper = styled.div`

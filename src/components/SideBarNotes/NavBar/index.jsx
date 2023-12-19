@@ -47,14 +47,19 @@ const StyledConatiner = styled.div`
 `;
 const StyledTitle = styled.div`
   font-size: 1.2rem;
+  color: rgb(55, 132, 198);
+  font-weight: bold;
 `;
 const StyleButtonWrapper = styled.div`
   margin-left: auto;
   margin-right: 1rem;
+  display: flex;
+  align-items: center;
 `;
 
 const StyledPlusButton = styled(Plus)`
   width: 1rem;
   height: 1rem;
   cursor: pointer;
+  fill: rgb(55, 132, 198);
 `;
