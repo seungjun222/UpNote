@@ -30,8 +30,8 @@ export const SideBarMemos = () => {
 
   const handleDelete = (e, id) => {
     e.stopPropagation();
-    const currentData = fetchDataFromLocalStorage();
-    const memoToDelete = currentData.find((memo) => memo.memos?.id === id);
+    const memosData = fetchDataFromLocalStorage();
+    const memoToDelete = memosData.find((memo) => memo.id === id);
     if (memoToDelete) {
       Swal.fire({
         title: "정말 삭제하시겠습니까?",
@@ -44,7 +44,8 @@ export const SideBarMemos = () => {
         cancelButtonText: "취소",
       }).then((result) => {
         if (result.isConfirmed) {
-          const updatedData = currentData?.map((notebook) => {
+          const storedData = JSON.parse(localStorage.getItem("notebooks"));
+          const updatedData = storedData?.map((notebook) => {
             if (notebook?.id === clickedNoteId) {
               const updatedMemos = notebook.memos.filter(
                 (memo) => memo?.id !== id

@@ -104,7 +104,7 @@ const StyledConatiner = styled.div`
   background-color: white;
 `;
 const StyledInput = styled.input`
-  padding: 1rem 2rem;
+  padding: 2rem;
 
   border: none;
   font-size: 1.5rem;
