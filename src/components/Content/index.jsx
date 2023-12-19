@@ -4,47 +4,80 @@ import { NavBar } from "./NavBar";
 import {
   clickedNewMemoButtonState,
   clickedMemoIdState,
+  clickedNoteIdState,
 } from "../../recoil/newNote";
 import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
 import { debounce } from "lodash";
 
 export const Content = () => {
+  const clickedNoteId = useRecoilValue(clickedNoteIdState);
   const clickedMemoId = useRecoilValue(clickedMemoIdState);
   const clickedNewMemoButton = useRecoilValue(clickedNewMemoButtonState);
   const [inputValue, setInputValue] = useState("");
   //   const [inputValue, setInputValue] = useRecoilState(inputValueState);
 
   useEffect(() => {
-    const storedData = JSON.parse(localStorage.getItem("contentData")) || [];
-    const existingData = storedData.find((data) => data.id === clickedMemoId);
+    const storedData = JSON.parse(localStorage.getItem("notebooks")) || [];
+    const existingData = storedData.find((data) => {
+      if (data?.id === clickedNoteId) {
+        const memo = data?.memos?.find((memo) => memo?.id === clickedMemoId);
+        return memo !== undefined;
+      }
+      return false;
+    });
     if (existingData) {
-      setInputValue(existingData.inputValue);
+      const memo = existingData.memos.find((memo) => memo.id === clickedMemoId);
+      setInputValue(memo.inputValue);
     } else {
       setInputValue("");
     }
   }, [clickedMemoId]);
 
   useEffect(() => {
-    const storedData = JSON.parse(localStorage.getItem("contentData")) || [];
-    const existingData = storedData.find((data) => data.id === clickedMemoId);
-
+    const storedData = JSON.parse(localStorage.getItem("notebooks")) || [];
+    const existingData = storedData.find((data) => {
+      if (data?.id === clickedNoteId) {
+        const memo = data?.memos?.find((memo) => memo?.id === clickedMemoId);
+        return memo !== undefined;
+      }
+      return false;
+    });
     if (existingData) {
       const updatedData = storedData.map((data) =>
-        data.id === clickedMemoId ? { ...data, inputValue: inputValue } : data
+        data?.memos?.find((memo) => memo?.id === clickedMemoId)
+          ? {
+              ...data,
+              memos: data.memos.map((memo) =>
+                memo.id === clickedMemoId
+                  ? { ...memo, inputValue: inputValue }
+                  : memo
+              ),
+            }
+          : data
       );
-      localStorage.setItem("contentData", JSON.stringify(updatedData));
+      localStorage.setItem("notebooks", JSON.stringify(updatedData));
     } else {
       if (clickedNewMemoButton) {
         const newData = {
-          id: clickedMemoId,
-          inputValue: inputValue,
-          lastModified: new Date().toLocaleString(),
+          id: clickedNoteId,
+          memos: [
+            ...(storedData.find((data) => data?.id === clickedNoteId)?.memos ||
+              []),
+            {
+              id: Math.random(),
+              inputValue: inputValue,
+              lastModified: new Date().toLocaleString(),
+            },
+          ],
         };
-        const updatedData = [...storedData, newData];
-        localStorage.setItem("contentData", JSON.stringify(updatedData));
+        const updatedData = [
+          ...storedData.filter((data) => data?.id !== clickedNoteId),
+          newData,
+        ];
+        localStorage.setItem("notebooks", JSON.stringify(updatedData));
       }
     }
-  }, [inputValue, clickedMemoId]);
+  }, [inputValue, clickedMemoId, clickedNoteId]);
 
   //   const debouncedHandleInputChange = debounce((value) => {
   //     setInputValue(value);

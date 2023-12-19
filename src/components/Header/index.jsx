@@ -1,17 +1,30 @@
 import styled from "styled-components";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
+import { clickedNoteIdState, clickedNoteNameState } from "../../recoil/newNote";
 
 export const Header = () => {
+  const [clickedNoteId, setClickedNoteId] = useRecoilState(clickedNoteIdState);
+
   const handleButton = () => {
-    const storedData = JSON.parse(localStorage.getItem("contentData")) || [];
-    const newData = {
-      id: storedData.length + 1,
-      inputValue: "New Note",
-      lastModified: new Date().toLocaleString(),
-    };
-    const updatedData = [newData, ...storedData];
-    localStorage.setItem("contentData", JSON.stringify(updatedData));
-    localStorage.setItem("clickedMemoId", storedData.length + 1);
+    const storedData = JSON.parse(localStorage.getItem("notebooks")) || [];
+    const updatedData = storedData.map((note) => {
+      if (note.id === clickedNoteId) {
+        return {
+          ...note,
+          memos: [
+            ...(note.memos || []),
+            {
+              id: Math.random(),
+              inputValue: "New Note",
+              lastModified: new Date().toLocaleString(),
+            },
+          ],
+        };
+      }
+      return note;
+    });
+
+    localStorage.setItem("notebooks", JSON.stringify(updatedData));
   };
 
   return (

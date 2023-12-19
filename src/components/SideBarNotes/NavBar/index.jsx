@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 export const NavBar = () => {
   const handlePlusButton = () => {
     Swal.fire({
-      title: "Create New MemoBook",
+      title: "Create New NoteBook",
       input: "text",
       inputAttributes: {
         autocapitalize: "off",
@@ -14,13 +14,13 @@ export const NavBar = () => {
       confirmButtonText: "Create",
       showLoaderOnConfirm: true,
       preConfirm: (name) => {
-        const storedData = JSON.parse(localStorage.getItem("MemoBooks")) || [];
+        const storedData = JSON.parse(localStorage.getItem("notebooks")) || [];
         const newData = {
           id: storedData.length + 1,
           inputValue: name,
         };
         const updatedData = [...storedData, newData];
-        localStorage.setItem("MemoBooks", JSON.stringify(updatedData));
+        localStorage.setItem("notebooks", JSON.stringify(updatedData));
       },
       allowOutsideClick: () => !Swal.isLoading(),
     });

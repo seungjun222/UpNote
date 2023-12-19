@@ -1,6 +1,10 @@
 import styled from "styled-components";
 import { NavBar } from "./NavBar";
-import { clickedNoteIdState, clickedNoteNameState } from "../../recoil/newNote";
+import {
+  clickedNoteIdState,
+  clickedNoteNameState,
+  clickedNoteMemosState,
+} from "../../recoil/newNote";
 import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
 import { useEffect, useState } from "react";
 import { ReactComponent as Trash } from "../../assets/trash.svg";
@@ -13,6 +17,9 @@ const fetchDataFromLocalStorage = () => {
 };
 
 export const SideBarNotes = () => {
+  const [clickedNoteMemos, setClickedNoteMemos] = useRecoilState(
+    clickedNoteMemosState
+  );
   const [clickedNoteId, setClickedNoteId] = useRecoilState(clickedNoteIdState);
   const [clickedNoteName, setClickedNoteName] =
     useRecoilState(clickedNoteNameState);
@@ -56,9 +63,10 @@ export const SideBarNotes = () => {
     }
   };
 
-  const handleNoteClick = (id, name) => {
+  const handleNoteClick = (id, name, memos) => {
     setClickedNoteId(id);
     setClickedNoteName(name);
+    setClickedNoteMemos(memos);
   };
 
   useEffect(() => {
@@ -74,7 +82,7 @@ export const SideBarNotes = () => {
       <NavBar />
       {sortedData.map((note) => (
         <StyledNote
-          onClick={() => handleNoteClick(note.id, note.inputValue)}
+          onClick={() => handleNoteClick(note.id, note.inputValue, note.memos)}
           key={note.id}
           isSelected={note.id === clickedNoteId}
         >

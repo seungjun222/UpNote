@@ -18,7 +18,7 @@ export const isWritingTextState = atom({
 export const clickedMemoIdState = atom({
   key: "clickedMemoIdState",
   default: () => {
-    const storedData = JSON.parse(localStorage.getItem("contentData")) || [];
+    const storedData = JSON.parse(localStorage.getItem("memos")) || [];
     if (storedData.length === 0) {
       return null;
     }
@@ -44,4 +44,8 @@ export const clickedNoteNameState = atom({
     }
     return storedData[0].name;
   },
+});
+export const clickedNoteMemosState = atom({
+  key: "clickedNoteMemosState",
+  default: [],
 });
