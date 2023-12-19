@@ -1,13 +1,7 @@
 import styled from "styled-components";
-import {
-  clickedNoteIdState,
-  clickedNoteInputValueState,
-} from "../../recoil/newNote";
 import { useSetRecoilState } from "recoil";
 
 export const Header = () => {
-  const setClickedNoteId = useSetRecoilState(clickedNoteIdState);
-
   const handleButton = () => {
     const storedData = JSON.parse(localStorage.getItem("contentData")) || [];
     const newData = {
@@ -17,29 +11,30 @@ export const Header = () => {
     };
     const updatedData = [newData, ...storedData];
     localStorage.setItem("contentData", JSON.stringify(updatedData));
-    setClickedNoteId(storedData.length + 1);
+    localStorage.setItem("clickedNoteId", storedData.length + 1);
   };
 
   return (
     <StyledConatiner>
-      <div>헤더</div>
+      <div></div>
       <StyledNewNoteButton onClick={handleButton}>New Note</StyledNewNoteButton>
     </StyledConatiner>
   );
 };
 
 const StyledConatiner = styled.div`
-  width: 100vw;
   height: 3rem;
-  background-color: purple;
+  background-color: white;
   display: flex;
   align-items: center;
+  padding: 0 1rem;
   justify-content: space-between;
 `;
 const StyledNewNoteButton = styled.button`
   width: 5rem;
   height: 75%;
   border-radius: 0.3rem;
+  border: none;
   cursor: pointer;
   background-color: rgb(0, 120, 197);
   color: white;

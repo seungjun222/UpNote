@@ -36,19 +36,3 @@ export const clickedNoteIdState = atom({
     return latestNote.id;
   },
 });
-export const clickedNoteInputValueState = atom({
-  key: "clickedNoteInputValueState",
-  default: () => {
-    const storedData = JSON.parse(localStorage.getItem("contentData")) || [];
-    if (storedData.length === 0) {
-      return null;
-    }
-    const latestNote = storedData.reduce((prev, current) =>
-      new Date(prev.lastModified) > new Date(current.lastModified)
-        ? prev
-        : current
-    );
-
-    return latestNote.inputValue;
-  },
-});

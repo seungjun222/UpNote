@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { NavBar } from "../NavBar";
+import { NavBar } from "./NavBar";
 import {
   clickedNewNoteButtonState,
   clickedNoteIdState,
-  clickedNoteInputValueState,
 } from "../../recoil/newNote";
 import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
 import { debounce } from "lodash";
 
 export const Content = () => {
   const clickedNoteId = useRecoilValue(clickedNoteIdState);
-  const clickedNoteInputValue = useRecoilValue(clickedNoteInputValueState);
   const clickedNewNoteButton = useRecoilValue(clickedNewNoteButtonState);
   const [inputValue, setInputValue] = useState("");
   //   const [inputValue, setInputValue] = useRecoilState(inputValueState);
@@ -63,13 +61,21 @@ export const Content = () => {
         value={inputValue}
         onChange={handleInputChange}
       />
-      {clickedNoteId}
+      {/* {clickedNoteId} */}
     </StyledConatiner>
   );
 };
 
 const StyledConatiner = styled.div`
   height: 100%;
-  background-color: greenyellow;
+  background-color: white;
 `;
-const StyledInput = styled.input``;
+const StyledInput = styled.input`
+  padding: 1rem 2rem;
+
+  border: none;
+  font-size: 1.5rem;
+  &:focus {
+    outline: none;
+  }
+`;
