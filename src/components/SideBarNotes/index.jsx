@@ -86,8 +86,8 @@ export const SideBarNotes = () => {
           <StyledContentWrapper>
             <StyledInputValue>
               {note.inputValue}
-              {note.memos && note.memos.length > 0 && (
-                <StyledMemosLength>{note.memos.length}</StyledMemosLength>
+              {note.memos && note.memos?.length > 0 && (
+                <StyledMemosLength>{note.memos?.length}</StyledMemosLength>
               )}
             </StyledInputValue>
           </StyledContentWrapper>

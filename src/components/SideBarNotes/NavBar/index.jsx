@@ -14,9 +14,13 @@ export const NavBar = () => {
       confirmButtonText: "Create",
       showLoaderOnConfirm: true,
       preConfirm: (name) => {
+        if (!name || name.length < 2) {
+          Swal.showValidationMessage("최소 2글자 이상의 이름을 입력하세요!");
+          return false;
+        }
         const storedData = JSON.parse(localStorage.getItem("notebooks")) || [];
         const newData = {
-          id: storedData.length + 1,
+          id: Math.random(),
           inputValue: name,
         };
         const updatedData = [...storedData, newData];

@@ -103,7 +103,8 @@ export const SideBarMemos = () => {
   return (
     <StyledConatiner>
       <NavBar />
-      {sortedData.length > 0 &&
+      {sortedData &&
+        sortedData?.length > 0 &&
         sortedData.map((memo) => (
           <StyledNote
             onClick={() => handleMemoClick(memo.id)}
@@ -119,7 +120,7 @@ export const SideBarMemos = () => {
             </StyledDeleteButtonWrapper>
           </StyledNote>
         ))}
-      {clickedNoteId && sortedData.length === 0 && (
+      {clickedNoteId && (!sortedData || sortedData.length === 0) && (
         <StyledNewMemoButtonWrapper>
           <StyledNewMemoButton onClick={handleNewMemoButton}>
             New Note
