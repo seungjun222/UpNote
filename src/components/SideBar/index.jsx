@@ -21,16 +21,19 @@ export const SideBar = () => {
   const isWritingText = useRecoilValue(isWritingTextState);
   const [sortedData, setSortedData] = useState(fetchDataFromLocalStorage());
 
-  useEffect(() => {
-    const fetchDataAndSetState = () => {
-      const updatedData = fetchDataFromLocalStorage();
-      setSortedData(updatedData);
-    };
+  const fetchDataAndSetState = () => {
+    const updatedData = fetchDataFromLocalStorage();
+    setSortedData(updatedData);
+  };
 
+  useEffect(() => {
     fetchDataAndSetState();
     const intervalId = setInterval(fetchDataAndSetState, 2000);
-    return () => clearInterval(intervalId);
-  }, []);
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [inputValue]);
+
   return (
     <StyledConatiner>
       <NavBar />

@@ -7,6 +7,7 @@ import {
   isWritingTextState,
 } from "../../recoil/newNote";
 import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
+import { debounce } from "lodash";
 
 export const Content = () => {
   const selectedNoteId = useRecoilValue(selectedNoteIdState);
@@ -33,9 +34,12 @@ export const Content = () => {
     }
   }, [inputValue, selectedNoteId]);
 
-  const handleInputChange = (e) => {
-    setInputValue(e.target.value);
+  const debouncedHandleInputChange = debounce((value) => {
+    setInputValue(value);
     setIsWritingText(true);
+  }, 1000);
+  const handleInputChange = (e) => {
+    debouncedHandleInputChange(e.target.value);
   };
 
   return (
