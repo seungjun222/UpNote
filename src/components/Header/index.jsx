@@ -1,6 +1,13 @@
 import styled from "styled-components";
+import {
+  clickedNoteIdState,
+  clickedNoteInputValueState,
+} from "../../recoil/newNote";
+import { useSetRecoilState } from "recoil";
 
 export const Header = () => {
+  const setClickedNoteId = useSetRecoilState(clickedNoteIdState);
+
   const handleButton = () => {
     const storedData = JSON.parse(localStorage.getItem("contentData")) || [];
     const newData = {
@@ -10,6 +17,7 @@ export const Header = () => {
     };
     const updatedData = [newData, ...storedData];
     localStorage.setItem("contentData", JSON.stringify(updatedData));
+    setClickedNoteId(storedData.length + 1);
   };
 
   return (
